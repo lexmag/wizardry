@@ -7,7 +7,11 @@ describe Wizardry::Base do
     end
 
     it 'must have steps array' do
-      assert_equal Product.steps, [:initial, :middle, :final]
+      assert_equal Product.steps, %w[initial middle final]
+    end
+
+    it 'must be instance of StringInquirer class in steps array' do
+      assert_equal Product.steps.map{ |s| s.instance_of?(ActiveSupport::StringInquirer) }, [true, true, true]
     end
   end
 
@@ -17,18 +21,29 @@ describe Wizardry::Base do
     end
 
     it 'must return current step as first step' do
-      assert_equal @product.current_step, :initial
+      assert_equal @product.current_step, 'initial'
     end
 
-    it 'must set current step name' do
+    it 'must update current step name with instance of StringInquirer' do
+      @product.current_step = 'middle'
+      assert_equal @product.current_step, 'middle'
+      assert_instance_of ActiveSupport::StringInquirer, @product.current_step
+    end
+
+    it 'must update current step name when symbol is passed' do
       @product.current_step = :middle
-      assert_equal @product.current_step, :middle
+      assert_equal @product.current_step, 'middle'
+    end
+
+    it 'must not update current step name' do
+      @product.current_step = :fictional
+      refute_equal @product.current_step, 'fictional'
     end
 
     it 'must have ordinal methods' do
-      assert_equal @product.first_step,  :initial
-      assert_equal @product.second_step, :middle
-      assert_equal @product.last_step,   :final
+      assert_equal @product.first_step,  'initial'
+      assert_equal @product.second_step, 'middle'
+      assert_equal @product.last_step,   'final'
 
       assert @product.first_step?
       refute @product.second_step?
@@ -42,7 +57,7 @@ describe Wizardry::Base do
     end
 
     it 'must return next step name' do
-      assert_equal @product.next_step, :middle
+      assert_equal @product.next_step, 'middle'
     end
 
     it 'must return `nil` on last step' do
@@ -56,7 +71,7 @@ describe Wizardry::Base do
 
     it 'must return previous step name' do
       @product.current_step = :middle
-      assert_equal @product.previous_step, :initial
+      assert_equal @product.previous_step, 'initial'
     end
   end
 end

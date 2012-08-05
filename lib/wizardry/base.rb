@@ -6,7 +6,7 @@ module Wizardry
       def wizardry(*steps)
         cattr_accessor :steps, instance_writer: false
 
-        self.steps = steps
+        self.steps = steps.map{ |s| s.to_s.inquiry }
 
         include WizardryMethods
 
@@ -30,7 +30,8 @@ module Wizardry
       end
 
       def current_step=(step)
-        @current_step = step if steps.include?(step)
+        step = step.to_s
+        @current_step = step.inquiry if steps.include?(step)
       end
 
       def next_step
