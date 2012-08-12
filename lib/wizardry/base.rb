@@ -4,9 +4,10 @@ module Wizardry
 
     module ClassMethods
       def wizardry(*steps)
-        cattr_accessor :steps, instance_writer: false
+        class_attribute :steps, :steps_regexp, instance_writer: false
 
         self.steps = steps.map{ |s| s.to_s.inquiry }
+        self.steps_regexp = Regexp.new(steps.join('|'))
 
         include WizardryMethods
 

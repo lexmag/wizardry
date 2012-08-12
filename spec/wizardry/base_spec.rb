@@ -10,13 +10,17 @@ describe Wizardry::Base do
       assert_equal Product.steps, %w[initial middle final]
     end
 
+    it 'must have steps regexp' do
+      assert_equal Product.steps_regexp, /initial|middle|final/
+    end
+
     it 'must be instance of StringInquirer class in steps array' do
       assert_equal Product.steps.map{ |s| s.instance_of?(ActiveSupport::StringInquirer) }, [true, true, true]
     end
   end
 
   describe 'instance methods' do
-    before :each do
+    before do
       @product = Product.new
     end
 
