@@ -77,5 +77,24 @@ describe Wizardry::Base do
       @product.current_step = :middle
       assert_equal @product.previous_step, 'initial'
     end
+
+    it 'must return translated name of step' do
+      assert_equal @product.step_title(:middle), 'Upload images'
+    end
+
+    it 'must return translated name of current step if no step passed' do
+      assert_equal @product.step_title, 'Product details'
+      @product.current_step = :middle
+      assert_equal @product.step_title, 'Upload images'
+    end
+
+    it 'must fall back to default name of step' do
+      assert_equal @product.step_title(:final), 'Final'
+      assert_equal @product.step_title('final'), 'Final'
+    end
+
+    it 'must return `nil` for nonexistent step name' do
+      assert_nil @product.step_title(:fictional)
+    end
   end
 end

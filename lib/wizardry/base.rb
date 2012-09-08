@@ -36,16 +36,21 @@ module Wizardry
       end
 
       def next_step
-        steps[current_step_index + 1] unless last_step?
+        steps[current_step_idx + 1] unless last_step?
       end
 
       def previous_step
-        steps[current_step_index - 1] unless first_step?
+        steps[current_step_idx - 1] unless first_step?
+      end
+
+      def step_title(step = current_step)
+        return nil if step !~ steps_regexp
+        I18n.translate(step, scope: 'wizardry.steps', default: step.to_s.humanize)
       end
 
       private
 
-      def current_step_index
+      def current_step_idx
         steps.index(current_step)
       end
     end
