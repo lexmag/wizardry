@@ -44,7 +44,7 @@ module Wizardry
       end
 
       def step_title(step = current_step)
-        return nil if step !~ steps_regexp
+        return if step !~ steps_regexp
         I18n.translate(step, scope: 'wizardry.steps', default: step.to_s.humanize)
       end
 
