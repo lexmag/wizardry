@@ -1,4 +1,4 @@
-# Wizardry
+# Wizardry [![Build Status](https://api.travis-ci.org/lexmag/wizardry.png)](https://travis-ci.org/lexmag/wizardry)
 
 Simple step-by-step wizard for Rails.
 
